@@ -17,4 +17,5 @@ export class CreateUserInput {
   @IsNotEmpty()
   @MinLength(6)
   password: string;
+  
 }

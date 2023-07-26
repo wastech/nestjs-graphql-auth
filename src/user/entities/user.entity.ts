@@ -27,6 +27,7 @@ export class User extends Document {
   password: string;
 
   @Field()
+  @Prop({ default: Date.now }) // Use default value to set createdAt
   createdAt: Date;
 }
 
