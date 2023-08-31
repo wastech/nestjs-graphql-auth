@@ -8,6 +8,7 @@ import { User, UserSchema } from './user/entities/user.entity';
 import { join } from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
+import { APP_GUARD } from '@nestjs/core';
 
 
 @Module({
@@ -22,9 +23,13 @@ import { UserModule } from './user/user.module';
     UserModule,
     JwtModule.register({
       secret: 'your_secret_key', // Change this to a secure key in production
-      signOptions: { expiresIn: '1h' }, // Adjust token expiration as needed
+      signOptions: { expiresIn: '1d' }, // Adjust token expiration as needed
     }),
   ],
-  providers: [UserResolver, UserService],
+  providers: [
+
+    UserResolver,
+    UserService,
+  ],
 })
 export class AppModule {}

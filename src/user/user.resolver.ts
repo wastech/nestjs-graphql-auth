@@ -1,22 +1,26 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Context, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserService } from './user.service';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { User } from './entities/user.entity';
-import { UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { LoginInput } from './dto/login.input';
 import { AuthPayload } from './dto/auth-payload.dto';
+import { Public } from './decorators/public.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { JwtAuthGuard } from './guards/auth.guard';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  // @Public()
   @Mutation((returns) => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
     return this.userService.createUser(createUserInput);
   }
 
+  @Public()
   @Mutation(() => AuthPayload) // Return type includes accessToken and user
   async login(@Args('user') input: LoginInput): Promise<AuthPayload> {
     const { email, password } = input;
@@ -24,23 +28,13 @@ export class UserResolver {
     return { accessToken, user };
   }
 
-  @Query(() => [User], { name: 'users' })
-  findAll() {
-    return this.userService.findAll();
-  }
 
-  @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id);
-  }
-
-  @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(updateUserInput.id, updateUserInput);
-  }
-
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id);
-  }
+  @Query(() => User)
+  @UseGuards(JwtAuthGuard)
+  async getProfile(@CurrentUser() user: User): Promise<User> {
+   // console.log('Current User:', user); // Add this line
+      return user;
+    }
+  
+p
 }

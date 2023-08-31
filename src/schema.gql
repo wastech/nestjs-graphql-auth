@@ -26,20 +26,10 @@ input LoginInput {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   login(user: LoginInput!): AuthPayload!
-  removeUser(id: Int!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  user(id: Int!): User!
-  users: [User!]!
-}
-
-input UpdateUserInput {
-  email: String
-  id: Int!
-  name: String
-  password: String
+  getProfile: User!
 }
 
 type User {

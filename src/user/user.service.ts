@@ -38,6 +38,8 @@ export class UserService {
     const userDocument = await this.userModel.findById(userId).exec();
     return userDocument; // Explicitly cast to User type
   }
+
+  
   async findByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne({ email }).exec();
   }
@@ -64,23 +66,5 @@ export class UserService {
   }
 
 
-  findAll() {
-    return [
-      { id: 1, name: 'User 1', exampleField: 100 },
-      { id: 2, name: 'User 2', exampleField: 200 },
-      // Add more users as needed
-    ];
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+ 
 }
