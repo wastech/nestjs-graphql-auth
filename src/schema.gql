@@ -25,11 +25,15 @@ input LoginInput {
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
+  deleteUser: Boolean!
   login(user: LoginInput!): AuthPayload!
+  updateUser(updateData: UserInput!, userId: String!): User!
+  updateUserPassword(newPassword: String!, oldPassword: String!, userId: String!): User!
 }
 
 type Query {
   getProfile: User!
+  getUsersWithPagination(limit: Int! = 10, page: Int! = 1): [User!]!
 }
 
 type User {
@@ -37,4 +41,9 @@ type User {
   createdAt: DateTime!
   email: String!
   name: String!
+}
+
+input UserInput {
+  email: String
+  name: String
 }
