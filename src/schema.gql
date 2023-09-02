@@ -7,6 +7,16 @@ type AuthPayload {
   user: User!
 }
 
+type Blog {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateBlogInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateUserInput {
   email: String!
   name: String!
@@ -24,16 +34,26 @@ input LoginInput {
 }
 
 type Mutation {
+  createBlog(createBlogInput: CreateBlogInput!): Blog!
   createUser(createUserInput: CreateUserInput!): User!
   deleteUser: Boolean!
   login(user: LoginInput!): AuthPayload!
+  removeBlog(id: Int!): Blog!
+  updateBlog(updateBlogInput: UpdateBlogInput!): Blog!
   updateUser(updateData: UserInput!, userId: String!): User!
   updateUserPassword(newPassword: String!, oldPassword: String!, userId: String!): User!
 }
 
 type Query {
+  blog(id: Int!): Blog!
   getProfile: User!
   getUsersWithPagination(limit: Int! = 10, page: Int! = 1): [User!]!
+}
+
+input UpdateBlogInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 type User {

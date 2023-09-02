@@ -9,6 +9,7 @@ import { join } from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { APP_GUARD } from '@nestjs/core';
+import { BlogModule } from './blog/blog.module';
 
 
 @Module({
@@ -25,6 +26,7 @@ import { APP_GUARD } from '@nestjs/core';
       secret: 'your_secret_key', // Change this to a secure key in production
       signOptions: { expiresIn: '1d' }, // Adjust token expiration as needed
     }),
+    BlogModule,
   ],
   providers: [
 
